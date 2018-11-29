@@ -28,7 +28,7 @@ from factinternetsales
 inner join dimproduct using (productkey)
 inner join dimproductsubcategory using(productsubcategorykey)
 inner join dimproductcategory using(productcategorykey)
-group by cube(1),cube(2),dimproduct.englishproductname
+group by rollup(1,2),dimproduct.englishproductname
 order by sum(salesamount),dimproductsubcategory.englishproductsubcategoryname,dimproduct.englishproductname ASC;`
 
  4. *View Internet Sales and Freight Cost by product category,
@@ -46,7 +46,7 @@ order by dimproduct.englishproductname,count(salesordernumber),SUM(freight) ASC;
 `select dimproduct.englishproductname as "Producto", SUM(salesamount) as "Total"
 from factinternetsales
 inner join dimproduct using (productkey)
-where dimproduct.englishproductname like '%A'
+where dimproduct.englishproductname like 'A%'
 group by dimproduct.englishproductname
 having SUM(salesamount::numeric) < 6000
 order by SUM(salesamount) ASC;`
